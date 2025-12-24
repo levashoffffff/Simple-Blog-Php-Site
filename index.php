@@ -10,6 +10,9 @@ if(isset($_GET['act'])) {
         case 'register': 
             require_once 'action/register.php';
             break;
+        case 'login': 
+            require_once 'action/login.php';
+            break;
     }
     die();
 }

@@ -50,7 +50,7 @@
             <h4 class="text-white">Contact</h4>
             <ul class="list-unstyled">
               <li><a href="/?act=register" class="text-white">Регистрация</a></li>
-              <li><a href="#" class="text-white">Like on Facebook</a></li>
+              <li><a href="/?act=login" class="text-white">Вход</a></li>
               <li><a href="#" class="text-white">Email me</a></li>
             </ul>
           </div>
