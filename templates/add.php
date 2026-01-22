@@ -49,8 +49,8 @@
           <div class="col-sm-4 offset-md-1 py-4">
             <h4 class="text-white">Contact</h4>
             <ul class="list-unstyled">
-              <li><a href="#" class="text-white">Follow on Twitter</a></li>
-              <li><a href="#" class="text-white">Like on Facebook</a></li>
+              <li><a href="/?act=register" class="text-white">Регистрация</a></li>
+              <li><a href="/?act=login" class="text-white">Вход</a></li>
               <li><a href="#" class="text-white">Email me</a></li>
             </ul>
           </div>
@@ -76,36 +76,27 @@
     </div>
   </header>
 
- <main>
-  <div class="container py-5">
-    <div class="row justify-content-center">
-      <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-4">
-        <div class="card border-0 shadow-sm">
-          <div class="card-body p-4">
-            <h3 class="card-title text-center mb-4">Форма входа</h3>
-            <span class="text-danger align-middle">
-              <i class="fa fa-close"></i> <?=$error?>
-            </span>
-            <form action="" method="post">
-              <input type="hidden" name="act" value="login">
+  <main>
+    <div class="album py-5 bg-light">
+      <div class="container">
+        <h2>Статья</h2>
+        <form class="form-horizontal" action="" method="post">
+              <input type="hidden" name="act" value="add">
               <div class="mb-3 text-start">
-                <label for="exampleInputEmail1" class="form-label">Почта</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email">
+                <label for="exampleInputEmail1" class="form-label">Название</label>
+                <input type="text" value="<?=$user['name']?>" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="title">
               </div>
-              <div class="mb-3 text-start">
-                <label for="exampleInputPassword1" class="form-label">Пароль</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" name="password">
+              <div class="mb-3 input-group">
+                <span class="input-group-text" for="exampleInputEmail2">Текст статьи</span>
+                <textarea name="content" id="exampleInputEmail2" class="form-control" aria-label="With textarea"><?=$user['about']?></textarea>
               </div>
               <div class="d-grid gap-2">
-                <button type="submit" class="btn btn-primary">Войти</button>
+                <button type="submit" class="btn btn-primary">Добавить статью</button>
               </div>
-            </form>
-          </div>
-        </div>
+        </form>
       </div>
     </div>
-  </div>
-</main>
+  </main>
 
   <footer class="text-muted py-5">
     <div class="container">

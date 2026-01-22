@@ -13,6 +13,15 @@ if(isset($_GET['act'])) {
         case 'login': 
             require_once 'action/login.php';
             break;
+        case 'profile': 
+            require_once 'action/profile.php';
+            break;
+        case 'add': 
+            require_once 'action/add.php';
+            break;
+        case 'articles': 
+            require_once 'action/articles.php';
+            break;
     }
     die();
 }
