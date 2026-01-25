@@ -1,15 +1,6 @@
 <?php
-if(empty($_SESSION['userId'])) {
-    header('Location: /?act=login');
-    die();
-}
-$id = $_SESSION['userId'];
-$results = $mysqli->query("SELECT * from user WHERE id = '" . $id . "' LIMIT 1");
-$user = $results->fetch_assoc();
-if(!$user) {
-    header('Location: /?act=login');
-    die();
-}
+
+$userId = checkUser($mysqli);
 
 if(count($_POST)) {
     $name = $_POST['name'] ?? null;

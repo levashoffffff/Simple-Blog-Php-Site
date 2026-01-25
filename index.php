@@ -1,8 +1,13 @@
 <?php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-require_once 'config.php';
+
 session_start();
+
+//Подключаем и данные файлы доступны во всем коде
+require_once 'config.php';
+require_once 'functions/helpers.php';
+
 $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
 if(isset($_GET['act'])) {
@@ -21,6 +26,12 @@ if(isset($_GET['act'])) {
             break;
         case 'articles': 
             require_once 'action/articles.php';
+            break;
+        case 'edit': 
+            require_once 'action/edit.php';
+            break;
+        case 'delete': 
+            require_once 'action/delete.php';
             break;
     }
     die();
