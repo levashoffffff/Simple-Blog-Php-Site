@@ -1,6 +1,6 @@
 <?php
 
-$userId = checkUser($mysqli);
+$user = checkUser($mysqli);
 
 $id = $_GET['id'] ?? null;
 if(!$id) {
@@ -9,22 +9,29 @@ if(!$id) {
 }
 
 if(count($_POST)) {
-    $title = $_POST['title'] ?? null;
-    $content = $_POST['content'] ?? null;
-    $query = "UPDATE article SET 
-          userId = " . $userId . ", 
+    $sql = '';
+    if($_FILES['file']['size']) {
+        $filename = upload($user['id']);
+        $sql = "img = '" . $filename . "', ";
+        $article = getUserArticle($mysqli, $id, $user['id']);
+        unlink($_SERVER['DOCUMENT_ROOT'] . "/images/" . $article['img']);
+    }
+    $title = strip_tags($_POST['title'] ?? null);
+    $content = strip_tags($_POST['content'] ?? null);
+    $query = "UPDATE article SET
+          " . $sql . " 
           title = '" . $title . "', 
           content = '" . $content . "'
           WHERE 
           id = " . $id . "
           AND 
-          userId = " . $userId; 
+          userId = " . $user['id']; 
     $mysqli->query($query);
     header('Location: /?act=articles');
     exit;
 }
 
-$results = $mysqli->query("SELECT * from article WHERE id = '" . $id . "' AND userId = " . $userId . " LIMIT 1");
+$results = $mysqli->query("SELECT * from article WHERE id = '" . $id . "' AND userId = " . $user['id'] . " LIMIT 1");
 $article = $results->fetch_assoc();
 if(!$article) {
     header('Location: /?act=articles');

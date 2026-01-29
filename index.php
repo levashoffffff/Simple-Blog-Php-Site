@@ -33,8 +33,24 @@ if(isset($_GET['act'])) {
         case 'delete': 
             require_once 'action/delete.php';
             break;
+        case 'logout': 
+            require_once 'action/logout.php';
+            break;
+        case 'view': 
+            require_once 'action/view.php';
+            break;
     }
     die();
 }
+
+
+$user = null;
+$userId = intval($_SESSION['userId'] ?? null);
+if($userId) {
+    $results = $mysqli->query("SELECT * from user WHERE id = '" . $userId . "' LIMIT 1");
+    $user = $results->fetch_assoc();
+}
+
+$results = $mysqli->query("SELECT * from article ORDER BY id DESC LIMIT 9");
 
 require_once 'templates/index.php';

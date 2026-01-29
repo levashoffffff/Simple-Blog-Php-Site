@@ -4,6 +4,7 @@
     <div class="album py-5 bg-light">
       <div class="container">
         <h2>Profile</h2>
+        <?php require_once 'templates/menu.php'; ?>
         <form class="form-horizontal" action="" method="post">
               <input type="hidden" name="act" value="profile">
               <div class="mb-3 text-start">

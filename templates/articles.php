@@ -4,10 +4,8 @@
     <div class="album py-5 bg-light">
       <div class="container">
         <h2>Статья</h2>
+        <?php require_once 'templates/menu.php'; ?>
         <form action="" method="post">
-          <button type="button" class="btn btn-primary">Добавить статью</button>
-          <button type="button" class="btn btn-secondary">Профиль</button>
-          <button type="button" class="btn btn-success">Выход</button>
           <table class="table">
             <thead class="table-light">
               <tr>
@@ -21,6 +19,7 @@
               <?php while($row = $results->fetch_assoc()): ?>
               <tr>
                 <th scope="row"><?=$row['id']?></th>
+                <td><img src="/images/<?=$row['img']?>"/></td>
                 <td><?=$row['title']?></td>
                 <td><?=$row['createdAt']?></td>
                 <td>
@@ -29,6 +28,13 @@
                 </td>
               </tr>
               <?php endwhile ?>
+              <?php if($results->num_rows === 0): ?>
+                <tr>
+                  <td colspan="4">
+                    Not found
+                  </td>
+                </tr>
+              <?php endif ?>
             </tbody>
           </table>
         </form>

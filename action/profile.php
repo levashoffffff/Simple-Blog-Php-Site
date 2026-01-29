@@ -1,6 +1,6 @@
 <?php
 
-$userId = checkUser($mysqli);
+$user = checkUser($mysqli);
 
 if(count($_POST)) {
     $name = $_POST['name'] ?? null;
@@ -12,7 +12,7 @@ if(count($_POST)) {
           surname = '" . $surname . "', 
           phone = '" . $phone . "', 
           about = '" . $about . "' 
-          WHERE id = " . (int)$id;
+          WHERE id = " . (int)$user['id'];
     $mysqli->query($query);
     header('Location: /?act=profile');
     exit;
