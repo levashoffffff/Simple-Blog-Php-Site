@@ -1,6 +1,6 @@
 <?php
 
-$user = checkUser($mysqli);
+$user = checkUser(/*$mysqli*/$pdo);
 $error = '';
 if(count($_POST)) {
     $title = strip_tags($_POST['title'] ?? null);
@@ -11,15 +11,23 @@ if(count($_POST)) {
         $error = 'Заголовок или текст не найден';
     }else {
         $filename = upload($user['id']);
-        $query = "INSERT INTO article SET 
+        //Запрос pdo
+        $stmt = $pdo->prepare("INSERT INTO article SET 
+            userId = ?, 
+            title = ?, 
+            content = ?,
+            img = ?, 
+            createdAt = now()");
+        $stmt->execute([$user['id'], $title, $content, $filename]);
+        //Запрос mysqli
+        /* $query = "INSERT INTO article SET 
             userId = " . $user['id'] . ", 
             title = '" . $title . "', 
             content = '" . $content . "',
             img = '" . $filename . "', 
             createdAt = now()";
-        $mysqli->query($query);
-        header('Location: /?act=articles');
-        die();
+        $mysqli->query($query); */
+        redirect('/?act=articles');
     }
 }
 

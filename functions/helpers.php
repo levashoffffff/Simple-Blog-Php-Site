@@ -1,17 +1,21 @@
 <?php
 
-function checkUser($mysqli): array {
+function checkUser(/*$mysqli*/$pdo): array {
     
     if(empty($_SESSION['userId'])) {
-        header('Location: /?act=login');
-        die();
+        redirect('/?act=login');
     }
     $userId = (int)$_SESSION['userId'];
-    $results = $mysqli->query("SELECT * from user WHERE id = '" . $userId . "' LIMIT 1");
-    $user = $results->fetch_assoc();
+    //Запрос mysqli
+    /* $results = $mysqli->query("SELECT * from user WHERE id = '" . $userId . "' LIMIT 1");
+    $user = $results->fetch_assoc(); */
+
+    //Запрос pdo на пользователя
+    $stmt = $pdo->prepare("SELECT * from user WHERE id = ? LIMIT 1");
+    $stmt->execute([$userId]);
+    $user = $stmt->fetch();
     if(!$user) {
-        header('Location: /?act=login');
-        die();
+        redirect('/?act=login');
     }
 
     return $user;
@@ -61,12 +65,23 @@ function upload(int $userId):string {
     return $filename;
 }
 
-function getUserArticle($mysqli,  int $id, int $userId):array {
-    $results = $mysqli->query("SELECT * from article WHERE id = '" . $id . "' AND userId = '" . $userId . "'");
-    $article = $results->fetch_assoc();
+function getUserArticle(/*$mysqli*/$pdo,  int $id, int $userId):array {
+    //Запрос pdo
+    $stmt = $pdo->prepare("SELECT * from article WHERE id = ? AND userId = ?");
+    $stmt->execute([$id, $userId]);
+    $article = $stmt->fetch();
+
+    //Запрос mysqli
+    /* $results = $mysqli->query("SELECT * from article WHERE id = '" . $id . "' AND userId = '" . $userId . "'");
+    $article = $results->fetch_assoc(); */
     if(!$article) {
-        header('Location: /?act=articles');
-        die();
+        redirect('/?act=articles');
     }
     return $article;
+}
+
+//Если функция ничего не возвращает, тогда void
+function redirect(string $uri):void {
+    header('Location: ' . $uri);
+    die();
 }

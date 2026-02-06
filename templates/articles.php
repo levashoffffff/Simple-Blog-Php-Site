@@ -16,7 +16,7 @@
               </tr>
             </thead>
             <tbody>
-              <?php while($row = $results->fetch_assoc()): ?>
+              <?php foreach($results as $row): ?>
               <tr>
                 <th scope="row"><?=$row['id']?></th>
                 <td><img src="/images/<?=$row['img']?>"/></td>
@@ -27,8 +27,8 @@
                   <a href="/?act=delete&id=<?=$row['id']?>"><button type="button" class="btn btn-warning">Удалить</button></a>
                 </td>
               </tr>
-              <?php endwhile ?>
-              <?php if($results->num_rows === 0): ?>
+              <?php endforeach ?>
+              <?php if(empty($results)): ?>
                 <tr>
                   <td colspan="4">
                     Not found
