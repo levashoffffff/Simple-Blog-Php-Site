@@ -1,7 +1,6 @@
 <?php
 
 function checkUser(/*$mysqli*/$pdo): array {
-    
     if(empty($_SESSION['userId'])) {
         redirect('/?act=login');
     }
@@ -16,6 +15,22 @@ function checkUser(/*$mysqli*/$pdo): array {
     $user = $stmt->fetch();
     if(!$user) {
         redirect('/?act=login');
+    }
+
+    return $user;
+}
+
+function getUser(/*$mysqli*/$pdo): array {
+    $userId = (int)($_SESSION['userId'] ?? null);
+    if(!$userId) {
+        return[];
+    }
+    //Запрос pdo на пользователя
+    $stmt = $pdo->prepare("SELECT * from user WHERE id = ? LIMIT 1");
+    $stmt->execute([$userId]);
+    $user = $stmt->fetch();
+    if(!$user) {
+        return[];
     }
 
     return $user;
@@ -65,10 +80,16 @@ function upload(int $userId):string {
     return $filename;
 }
 
-function getUserArticle(/*$mysqli*/$pdo,  int $id, int $userId):array {
-    //Запрос pdo
-    $stmt = $pdo->prepare("SELECT * from article WHERE id = ? AND userId = ?");
-    $stmt->execute([$id, $userId]);
+function getUserArticle(/*$mysqli*/$pdo,  int $id, array $user):array {
+    if($user['isAdmin'] == 1) {
+        $stmt = $pdo->prepare("SELECT * from article WHERE id = ?");
+        $stmt->execute([$id]);
+    } else {
+        //Запрос pdo
+        $stmt = $pdo->prepare("SELECT * from article WHERE id = ? AND userId = ?");
+        $stmt->execute([$id, $user['id']]);
+    }
+
     $article = $stmt->fetch();
 
     //Запрос mysqli

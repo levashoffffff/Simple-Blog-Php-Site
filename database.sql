@@ -20,3 +20,16 @@ CREATE TABLE `article` (`id` int(20) unsigned NOT NULL AUTO_INCREMENT,
                      `createdAt` DATETIME DEFAULT NULL,
                      PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE user add isAdmin tinyint default 0;
+
+UPDATE user SET isAdmin = 1 WHERE id = 4;
+
+CREATE TABLE `comment` (`id` int(20) unsigned NOT NULL AUTO_INCREMENT,
+                     `userId` int(20) unsigned DEFAULT NULL,
+                     `articleId` int(20) unsigned NOT NULL,
+                     `content` TEXT NOT NULL,
+                     `isModerative` TINYINT unsigned DEFAULT 0,
+                     `createdAt` DATETIME DEFAULT NULL,
+                     PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

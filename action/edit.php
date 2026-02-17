@@ -12,21 +12,31 @@ if(count($_POST)) {
     if($_FILES['file']['size']) {
         $filename = upload($user['id']);
         $sql = "img = '" . $filename . "', ";
-        $article = getUserArticle(/*$mysqli*/$pdo, $id, $user['id']);
+        $article = getUserArticle(/*$mysqli*/$pdo, $id, $user);
         unlink($_SERVER['DOCUMENT_ROOT'] . "/images/" . $article['img']);
     }
     $title = strip_tags($_POST['title'] ?? null);
     $content = strip_tags($_POST['content'] ?? null);
-    //Запрос pdo
-    $stmt = $pdo->prepare("UPDATE article SET
+    if($user['isAdmin']) {
+        $stmt = $pdo->prepare("UPDATE article SET
           " . $sql . " 
           title = ?, 
           content = ?
           WHERE 
-          id = ?
-          AND 
-          userId = ?");
-    $stmt->execute([$title, $content, $id, $user['id']]);
+          id = ?");
+        $stmt->execute([$title, $content, $id]);
+    } else {
+        $stmt = $pdo->prepare("UPDATE article SET
+            " . $sql . " 
+            title = ?, 
+            content = ?
+            WHERE 
+            id = ?
+            AND 
+            userId = ?");
+        $stmt->execute([$title, $content, $id, $user['id']]);
+    }
+
 
     //Запрос mysqli
     /* $query = "UPDATE article SET
@@ -38,12 +48,24 @@ if(count($_POST)) {
           AND 
           userId = " . $user['id']; 
     $mysqli->query($query); */
-    redirect('/?act=articles');
+    if($user['isAdmin']) {
+        redirect('/?act=adminArticles');
+    } else {
+        redirect('/?act=articles');
+    }
+    
 }
 
-//Запрос pdo
-$stmt = $pdo->prepare("SELECT * from article WHERE id = ? AND userId = ? LIMIT 1");
-$stmt->execute([$id, $user['id']]);
+if($user['isAdmin']) {
+    //Если админ
+    $stmt = $pdo->prepare("SELECT * from article WHERE id = ? LIMIT 1");
+    $stmt->execute([$id]);
+} else {
+    //Если обычный пользователь
+    $stmt = $pdo->prepare("SELECT * from article WHERE id = ? AND userId = ? LIMIT 1");
+    $stmt->execute([$id, $user['id']]);
+}
+
 $article = $stmt->fetch();
 
 //Запрос mysqli

@@ -5,7 +5,9 @@ ini_set('display_errors', 1);
 session_start();
 
 //Подключаем и данные файлы доступны во всем коде
-require_once 'config.php';
+require_once 'config/config.php';
+//Файл с маршрутами
+require_once 'config/router.php';
 require_once 'functions/helpers.php';
 
 //Подключение к БД через PDO
@@ -20,8 +22,11 @@ $pdo = new PDO($dsn, DB_USER, DB_PASSWORD, $options);
 //Подключение к БД через mysqli
 /* $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME); */
 
-if(isset($_GET['act'])) {
-    switch($_GET['act']) {
+if(isset($_REQUEST['act'])) {
+    if(!empty($routers[$_REQUEST['act']])) {
+        require_once $routers[$_REQUEST['act']];
+    }
+/*     switch($_REQUEST['act']) {
         case 'register': 
             require_once 'action/register.php';
             break;
@@ -49,7 +54,7 @@ if(isset($_GET['act'])) {
         case 'view': 
             require_once 'action/view.php';
             break;
-    }
+    } */
     die();
 }
 
