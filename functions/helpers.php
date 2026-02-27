@@ -20,6 +20,15 @@ function checkUser(/*$mysqli*/$pdo): array {
     return $user;
 }
 
+function checkAdminUser(/*$mysqli*/$pdo): array {
+    $user = checkUser($pdo);
+    if($user['isAdmin'] != 1) {
+        redirect('/?act=login');
+    }
+
+    return $user;
+}
+
 function getUser(/*$mysqli*/$pdo): array {
     $userId = (int)($_SESSION['userId'] ?? null);
     if(!$userId) {

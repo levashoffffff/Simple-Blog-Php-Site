@@ -5,10 +5,10 @@ ini_set('display_errors', 1);
 session_start();
 
 //Подключаем и данные файлы доступны во всем коде
-require_once 'config/config.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/config/config.php';
 //Файл с маршрутами
-require_once 'config/router.php';
-require_once 'functions/helpers.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/config/router-admin.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/functions/helpers.php';
 
 //Подключение к БД через PDO
 $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8";
@@ -22,11 +22,8 @@ $pdo = new PDO($dsn, DB_USER, DB_PASSWORD, $options);
 //Подключение к БД через mysqli
 /* $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME); */
 
-///ТУТ ОШИБКА РАЗОБРАТЬСЯ
-/* $user = checkAdminUser(/*$mysqli*//*$pdo); */
-
-if(isset($_REQUEST['act']) && !empty($routers[$_REQUEST['act']])) {
+if(isset($_REQUEST['act']) && !empty($routersAdmin[$_REQUEST['act']])) {
     require_once $routers[$_REQUEST['act']];
 } else {
-    require_once 'action/index.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/action/admin/index.php';
 }
