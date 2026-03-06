@@ -14,6 +14,6 @@ if($userId) {
 /* $results = $mysqli->query("SELECT * from article ORDER BY id DESC LIMIT 9"); */
 
 //Запрос pdo на получение статей. Поскольку подстановок нет, то использовать prepare не нужно
-$stmt = $pdo->query("SELECT * from article ORDER BY id DESC LIMIT 9");
+$stmt = $pdo->query("SELECT * from article WHERE isPublished = 1 ORDER BY id DESC LIMIT 9");
 
 require_once 'templates/index.php';

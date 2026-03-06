@@ -23,7 +23,7 @@ $pdo = new PDO($dsn, DB_USER, DB_PASSWORD, $options);
 /* $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME); */
 
 if(isset($_REQUEST['act']) && !empty($routersAdmin[$_REQUEST['act']])) {
-    require_once $routers[$_REQUEST['act']];
+    require_once $routersAdmin[$_REQUEST['act']];
 } else {
     require_once $_SERVER['DOCUMENT_ROOT'] . '/action/admin/index.php';
 }

@@ -10,8 +10,7 @@
   </footer>
 
 
-  <script src="js/bootstrap.min.js"></script>
-
+  <script src="/templates/js/bootstrap.min.js"></script>
 
 </body>
 

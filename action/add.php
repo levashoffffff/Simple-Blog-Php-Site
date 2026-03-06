@@ -18,7 +18,8 @@ if(count($_POST)) {
             content = ?,
             img = ?, 
             createdAt = now()");
-        $stmt->execute([$user['id'], $title, $content, $filename]);
+        $stmt->execute([$user['id'], $title . ' ' . $i, $content, $filename]);
+
         //Запрос mysqli
         /* $query = "INSERT INTO article SET 
             userId = " . $user['id'] . ", 

@@ -33,3 +33,17 @@ CREATE TABLE `comment` (`id` int(20) unsigned NOT NULL AUTO_INCREMENT,
                      `createdAt` DATETIME DEFAULT NULL,
                      PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `category` (`id` int(20) unsigned NOT NULL AUTO_INCREMENT,
+                     `name` varchar(255) NOT NULL,
+                     `createdAt` DATETIME DEFAULT NULL,
+                     PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO category SET name = 'News', createdAt = NOW();
+
+INSERT INTO category SET name = 'Articles', createdAt = NOW();
+
+ALTER TABLE article ADD categoryId int(11) default null;
+
+ALTER TABLE article ADD isPublished tinyint default 1;

@@ -1,4 +1,40 @@
 <?php
+//Импортируем необходимые классы для PHP MAILER
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+//Функция для отправки почты
+function sendEmail() : void {
+    $mail = new PHPMailer(true);
+
+try {
+
+    $mail->isSMTP();                                      // Отправка через SMTP
+    $mail->Host       = 'ssl://smtp.mail.ru';                 // Основной SMTP сервер
+    $mail->SMTPAuth   = true;                             // Включить аутентификацию
+    $mail->Username   = 'artur.levashoff@mail.ru';           // Ваш email
+    $mail->Password   = 'your-app-password';              // Пароль приложения
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;   // Шифрование TLS
+    $mail->Port       = 465;                              // Порт для TLS
+
+    // --- ПОЛУЧАТЕЛИ ---
+    $mail->setFrom('your-email@gmail.com', 'Your Name');  // От кого
+    $mail->addAddress('recipient@example.com', 'Joe User'); // Кому
+
+    // --- СОДЕРЖИМОЕ ПИСЬМА ---
+    $mail->isHTML(true);                                  // Формат письма - HTML
+    $mail->Subject = 'Here is the subject';
+    $mail->Body    = 'This is the HTML message body <b>in bold!</b>';
+    $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+
+    // --- ОТПРАВКА ---
+    $mail->send();
+    echo 'Message has been sent';
+    } catch (Exception $e) {
+        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+    }
+}
 
 function checkUser(/*$mysqli*/$pdo): array {
     if(empty($_SESSION['userId'])) {
@@ -70,8 +106,10 @@ function upload(int $userId):string {
         $dest = imagecreatetruecolor($wNew, $hNew);
 
         imagecopyresampled($dest, $src, 0, 0, 0, 0, $wNew, $hNew, $width, $height);
-
-        $filename = "photo-" . $user['id'] . "-" . time() . '.' . $ext;
+        
+        $microtime = str_replace('.', '', microtime(true));
+        $random = rand(100, 999);
+        $filename = "photo-" . $userId . "-" . $microtime . "-" . $random . '.' . $ext;
         $fullFilename = $_SERVER['DOCUMENT_ROOT'] . "/images/" . $filename;
 
         switch ($mime) {
