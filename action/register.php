@@ -10,6 +10,7 @@ if(count($_POST) > 0) {
     $stmt = $pdo->prepare("INSERT INTO user SET email = ?, password = ?");
     $stmt->execute([$email, $password]);
 
+    sendEmail('Регистрация прошла успешно', body: 'Поздравляем, регистрация прошла успешно');
     //Запрос mysqli
     /* $mysqli->query("INSERT INTO user SET email = '" . $email . "', password = '" . $password . "'"); */
     

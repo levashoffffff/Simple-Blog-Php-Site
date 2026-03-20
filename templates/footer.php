@@ -11,7 +11,30 @@
 
 
   <script src="/templates/js/bootstrap.min.js"></script>
-
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('like').addEventListener('click', function() {
+            fetch('/?act=like&id=<?=$article["id"]?>', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json(); // Парсим ответ как JSON
+            })
+            .then(data => {
+                console.log(data.numberOfLikes); // Выводим numberOfLikes в консоль
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+            });
+        });
+    });
+    </script>
 </body>
 
 </html>

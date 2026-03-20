@@ -9,5 +9,6 @@
         'delete' => 'action/delete.php',
         'logout' => 'action/logout.php',
         'view' => 'action/view.php',
-        'adminArticles' => 'action/admin/articles.php'
+        'adminArticles' => 'action/admin/articles.php',
+        'like' => 'action/like.php',
     ];

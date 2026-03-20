@@ -6,6 +6,9 @@
         <h2>Статья</h2>
         <?php require_once 'templates/menu.php'; ?>
         <h3><?=$article['title']?></h3>
+        <p>Количество просмотров: <?=$article['views']?></p>
+        <p>Количество лайков: <?=$article['likes']?></p>
+        <p><button id="like"><img width="30" src="/images/like.png" alt="Поставь лайк"></button></p>
         <img src="/images/<?=$article['img']?>" alt="<?=$article['title']?>" align="left" vspace="5" hspace="5" />
         <p>
             <?=$article['content']?>

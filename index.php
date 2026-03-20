@@ -19,7 +19,7 @@ ini_set('display_errors', 1);
         exit;
     }
 } */
-
+require 'vendor/autoload.php';
 session_start();
 
 //Подключаем и данные файлы доступны во всем коде
@@ -28,9 +28,9 @@ require_once 'config/config.php';
 require_once 'config/router.php';
 require_once 'functions/helpers.php';
 
-require 'lib/PHPMailer/src/Exception.php';
-require 'lib/PHPMailer/src/PHPMailer.php';
-require 'lib/PHPMailer/src/SMTP.php';
+require_once 'lib/PHPMailer/src/Exception.php';
+require_once 'lib/PHPMailer/src/PHPMailer.php';
+require_once 'lib/PHPMailer/src/SMTP.php';
 
 //Подключение к БД через PDO
 $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8";
@@ -46,6 +46,8 @@ $pdo = new PDO($dsn, DB_USER, DB_PASSWORD, $options);
 
 ///ТУТ ОШИБКА РАЗОБРАТЬСЯ
 /* $user = checkAdminUser(/*$mysqli*//*$pdo); */
+
+$userDb = getUser($pdo);
 
 if(isset($_REQUEST['act']) && !empty($routers[$_REQUEST['act']])) {
     require_once $routers[$_REQUEST['act']];

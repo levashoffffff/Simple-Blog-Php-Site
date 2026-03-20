@@ -1,38 +1,57 @@
 <?php
 //Импортируем необходимые классы для PHP MAILER
 use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
+/* use PHPMailer\PHPMailer\SMTP; */
 use PHPMailer\PHPMailer\Exception;
 
+function getUserIp() {
+    if(isset($_SERVER["HTTP_CF_CONNECTING_IP"])) {
+        $_SERVER['REMOTE_ADDR'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
+        $_SERVER['HTTP_CLIENT_IP'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
+    }
+    $client = @$_SERVER['HTTP_CLIENT_IP'];
+    $forward = @$_SERVER['HTTP_X_FORWARDED_FOR'];
+    $remote = $_SERVER['REMOTE_ADDR'];
+
+    if(filter_var($client, FILTER_VALIDATE_IP)) {
+        $ip = $client;
+    } elseif(filter_var($forward, FILTER_VALIDATE_IP)) {
+        $ip = $forward;
+    } else {
+        $ip = $remote;
+    }
+
+    return $ip;
+}
+
 //Функция для отправки почты
-function sendEmail() : void {
+function sendEmail(string $subject, string $body) : void {
     $mail = new PHPMailer(true);
 
 try {
-
     $mail->isSMTP();                                      // Отправка через SMTP
     $mail->Host       = 'ssl://smtp.mail.ru';                 // Основной SMTP сервер
     $mail->SMTPAuth   = true;                             // Включить аутентификацию
     $mail->Username   = 'artur.levashoff@mail.ru';           // Ваш email
-    $mail->Password   = 'your-app-password';              // Пароль приложения
+    $mail->Password   = '7joIoWsbvnRo3ubNKSu3';              // Пароль приложения
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;   // Шифрование TLS
     $mail->Port       = 465;                              // Порт для TLS
-
+    $mail->CharSet = "UTF-8";
     // --- ПОЛУЧАТЕЛИ ---
-    $mail->setFrom('your-email@gmail.com', 'Your Name');  // От кого
-    $mail->addAddress('recipient@example.com', 'Joe User'); // Кому
+    $mail->setFrom('artur.levashoff@mail.ru', 'Artur Levashov');  // От кого
+    $mail->addAddress('artur.levashoff@gmail.com', 'Joe User'); // Кому
 
     // --- СОДЕРЖИМОЕ ПИСЬМА ---
     $mail->isHTML(true);                                  // Формат письма - HTML
-    $mail->Subject = 'Here is the subject';
-    $mail->Body    = 'This is the HTML message body <b>in bold!</b>';
-    $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+    $mail->Subject = $subject;
+    $mail->Body    = $body;
+    $mail->AltBody = strip_tags($body);
 
     // --- ОТПРАВКА ---
     $mail->send();
-    echo 'Message has been sent';
     } catch (Exception $e) {
         echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+        die();
     }
 }
 

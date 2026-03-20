@@ -47,3 +47,21 @@ INSERT INTO category SET name = 'Articles', createdAt = NOW();
 ALTER TABLE article ADD categoryId int(11) default null;
 
 ALTER TABLE article ADD isPublished tinyint default 1;
+
+ALTER TABLE article ADD views INT(11) DEFAULT 0;
+
+ALTER TABLE article ADD likes int(11) default 0;
+
+CREATE TABLE `likes` (`id` int(20) unsigned NOT NULL AUTO_INCREMENT,
+                     `userId` int(20) unsigned NOT NULL,
+                     `ip` varchar(255) NOT NULL,
+                     PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE likes ADD articleId int(11) default null;
+
+ALTER TABLE likes CHANGE userId userId INT(11) DEFAULT NULL;
+
+ALTER TABLE likes ADD createdAt DATETIME DEFAULT NULL;
+
+ALTER TABLE likes ADD updateAt DATETIME DEFAULT NULL;

@@ -31,11 +31,31 @@
       }
     }
   </style>
+  <?php if($userDb): ?>
+  <script>
+    let socket = new WebSocket('ws://localhost:8080');
+    socket.onopen = function(e) {
+      socket.send(JSON.stringify({email: "<?=$userDb['email']?>", initial: 1}));
+    }
+    socket.onmessage = function(e) {
+      let message = JSON.parse(e.data);
+      alert('Вы получили комментарий к статье ID ' + e.data);
+      console.log('Message from server ', e.data);
+    }
+    socket.onclose = function(e) {
+      console.log('onclose');
+      console.log(e);
+    }
+    socket.onerror = function(e) {
+      console.log('onerror');
+      console.log(e);
+    }
+  </script>
+  <?php endif?>
 
+  </head>
 
-</head>
-
-<body>
+  <body>
 
   <header>
     <div class="collapse bg-dark" id="navbarHeader">

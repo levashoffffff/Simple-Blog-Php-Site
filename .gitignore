@@ -1,0 +1,28 @@
+# Временные файлы и директории
+/vendor/
+/composer.lock
+/.env
+/._*
+/.DS_Store
+/.idea/
+/.vscode/
+/nbproject/
+
+# Логи
+*.log
+
+# Кэш
+*.cache
+/tmp/
+
+# Изображения, которые могут быть загружены пользователями
+/images/*.png
+/images/*.jpg
+/images/*.jpeg
+/images/*.gif
+/images/*.webp
+/images/*.svg
+/images/*.bmp
+
+# Временные файлы DOCX
+/~$*.docx
